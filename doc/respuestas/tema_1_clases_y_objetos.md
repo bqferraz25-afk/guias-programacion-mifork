@@ -1,18 +1,3 @@
-<!--
-Posible prompt:
-<prompt>
-Tengo un cuestionario con preguntas sobre "Clases y Objetos". Debes tener en cuenta que los conocimientos previos que tengo (y por tanto tus respuestas deben ser adaptadas), son:
-- C/C++ sin orientación a objetos.
-- Temas de Java previos: ninguno.
-
-Cada respuesta debe tener entre 2 - 4 párrafos de longitud (sin contar los trozos de código).
-
-Por favor, escribe en impersonal las respuestas.
-
-</prompt>
-----
--->
-
 # TEMA 1. Clases y objetos
 
 ## 1. ¿Cuáles son las cuatro características básicas de la programación orientada a objetos? Describe brevemente cada una
@@ -146,7 +131,6 @@ Un constructor es un método especial de una clase que se ejecuta automáticamen
 Si no se define ningún constructor, Java proporciona uno por defecto sin parámetros. Sin embargo, es habitual definir constructores propios para inicializar correctamente los objetos desde el momento de su creación.
 
 Ejemplo de constructor en una clase `Empleado`:
-
 ```java
 public class Empleado {
     String dni;
@@ -159,8 +143,7 @@ public class Empleado {
         this.apellidos = apellidos;
     }
 }
-
-
+```
 
 ## 12. ¿Qué es la referencia `this`? ¿Se llama igual en todos los lenguajes? Pon un ejemplo del uso de `this` en la clase `Punto`
 
@@ -169,7 +152,7 @@ La referencia this se utiliza para hacer referencia al objeto actual, es decir, 
 El uso de this es especialmente útil cuando los parámetros de un método tienen el mismo nombre que los atributos de la clase, ya que permite distinguir claramente entre ambos.
 
 El nombre de esta referencia no es igual en todos los lenguajes. En C++ también se utiliza this, mientras que en otros lenguajes orientados a objetos puede recibir nombres distintos o no ser accesible explícitamente.
-
+```java
 public class Punto {
     double x;
     double y;
@@ -179,7 +162,7 @@ public class Punto {
         this.y = y;
     }
 }
-
+```
 
 ## 13. Añade ahora otro nuevo método que se llame `distanciaA`, que reciba un `Punto` como parámetro y calcule la distancia entre `this` y el punto proporcionado
 
@@ -188,14 +171,13 @@ Un método puede recibir como parámetro otro objeto de la misma clase. En este 
 El cálculo se realiza accediendo a los atributos de ambos objetos, utilizando this para referirse al objeto que ejecuta el método y el parámetro para acceder al objeto recibido.
 
 Este tipo de métodos permite definir relaciones entre objetos y realizar operaciones que dependen del estado de más de una instancia.
-
+```java
 double distanciaA(Punto otro) {
     double dx = this.x - otro.x;
     double dy = this.y - otro.y;
     return Math.sqrt(dx * dx + dy * dy);
 }
-
-
+```
 
 ## 14. El paso del `Punto` como parámetro a un método, es **por copia** o **por referencia**, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
 
@@ -213,12 +195,12 @@ El método toString() es un método definido en la clase base Object, de la cual
 Por defecto, este método devuelve una cadena poco informativa, por lo que es habitual redefinirlo para mostrar información relevante del estado del objeto.
 
 Métodos con una finalidad similar existen en otros lenguajes orientados a objetos, aunque con nombres o mecanismos distintos.
-
+```
 @Override
 public String toString() {
     return "Punto(" + x + ", " + y + ")";
 }
-
+```
 
 
 ## 16. Reflexiona: ¿una clase es como un `struct` en C? ¿Qué le falta al `struct` para ser como una clase y las variables de ese tipo ser instancias?
@@ -238,6 +220,7 @@ En C, una forma de emular una clase consiste en definir un struct para los datos
 La referencia implícita this desaparece y se sustituye por un parámetro que representa el objeto sobre el que se opera. El programador debe pasar manualmente dicho puntero a cada función.
 
 Este enfoque permite aproximarse al modelo de objetos, pero carece de las garantías y mecanismos automáticos que ofrece la programación orientada a objetos.
+```
 #include <math.h>
 
 struct Punto {
@@ -248,3 +231,4 @@ struct Punto {
 double calculaDistanciaAOrigen(struct Punto *p) {
     return sqrt(p->x * p->x + p->y * p->y);
 }
+```
