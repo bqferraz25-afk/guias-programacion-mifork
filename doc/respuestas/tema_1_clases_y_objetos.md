@@ -117,44 +117,134 @@ public class Main {
 
 ## 9. ¿Cuál es el punto de entrada en un programa en Java? ¿Qué es `static` y para qué vale? ¿Sólo se emplea para ese método `main`? ¿Para qué se combina con `final`?
 
-### Respuesta
+El punto de entrada de un programa en Java es el método `main`, cuya firma es `public static void main(String[] args)`. Este método es el primero que se ejecuta cuando se lanza un programa Java desde la línea de comandos. La máquina virtual de Java busca exactamente este método para comenzar la ejecución.
 
-## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? ¿Java es compilado? ¿Qué es la **máquina virtual**? ¿Qué es el *byte-code* y los ficheros `.class`?
+La palabra clave `static` indica que un método o atributo pertenece a la clase y no a un objeto concreto. Esto significa que puede utilizarse sin necesidad de crear una instancia de la clase. En el caso del método `main`, se utiliza `static` porque aún no existe ningún objeto cuando el programa comienza a ejecutarse.
 
-### Respuesta
+El modificador `static` no se emplea únicamente en el método `main`. Puede utilizarse también en métodos auxiliares, constantes o variables compartidas por todas las instancias de una clase. Cuando se combina con `final`, suele indicar que el valor no puede modificarse, como ocurre habitualmente con constantes.
 
+---
 
-## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un **constructor**? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos
+## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde línea de comandos? ¿Java es compilado? ¿Qué es la máquina virtual? ¿Qué es el byte-code y los ficheros `.class`?
 
-### Respuesta
+Un programa Java se compila desde la línea de comandos utilizando el compilador `javac`. Por ejemplo, al ejecutar `javac Main.java`, se traduce el código fuente a un fichero con extensión `.class`. Posteriormente, el programa se ejecuta con el comando `java Main`, sin indicar la extensión del archivo.
+
+Java es un lenguaje compilado, pero su proceso de compilación es distinto al de C o C++. En lugar de generar código máquina específico para un sistema operativo, el compilador genera un código intermedio llamado *byte-code*.
+
+Este byte-code se ejecuta sobre la máquina virtual de Java (JVM), que actúa como una capa intermedia entre el programa y el sistema operativo. Gracias a este diseño, un mismo programa Java puede ejecutarse en distintos sistemas sin recompilar, siempre que exista una JVM compatible.
+
+Los ficheros `.class` contienen precisamente ese byte-code. Cada clase del programa se traduce a un archivo `.class`, que es interpretado o compilado dinámicamente por la máquina virtual en tiempo de ejecución.
+
+---
+
+## 11. En el código anterior de la clase `Punto`, ¿qué es `new`? ¿Qué es un constructor? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos
+
+La palabra clave `new` se utiliza en Java para crear un objeto, es decir, para reservar memoria y generar una instancia de una clase. Al usar `new`, se crea un objeto en memoria y se devuelve una referencia a dicho objeto.
+
+Un constructor es un método especial de una clase que se ejecuta automáticamente cuando se crea un objeto con `new`. Su función principal es inicializar los atributos del objeto. Un constructor tiene el mismo nombre que la clase y no devuelve ningún valor.
+
+Si no se define ningún constructor, Java proporciona uno por defecto sin parámetros. Sin embargo, es habitual definir constructores propios para inicializar correctamente los objetos desde el momento de su creación.
+
+Ejemplo de constructor en una clase `Empleado`:
+
+```java
+public class Empleado {
+    String dni;
+    String nombre;
+    String apellidos;
+
+    Empleado(String dni, String nombre, String apellidos) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+    }
+}
+
 
 
 ## 12. ¿Qué es la referencia `this`? ¿Se llama igual en todos los lenguajes? Pon un ejemplo del uso de `this` en la clase `Punto`
 
-### Respuesta
+La referencia this se utiliza para hacer referencia al objeto actual, es decir, al objeto que está ejecutando un método en un momento determinado. Permite acceder de forma explícita a los atributos y métodos de dicho objeto.
+
+El uso de this es especialmente útil cuando los parámetros de un método tienen el mismo nombre que los atributos de la clase, ya que permite distinguir claramente entre ambos.
+
+El nombre de esta referencia no es igual en todos los lenguajes. En C++ también se utiliza this, mientras que en otros lenguajes orientados a objetos puede recibir nombres distintos o no ser accesible explícitamente.
+
+public class Punto {
+    double x;
+    double y;
+
+    Punto(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+}
 
 
 ## 13. Añade ahora otro nuevo método que se llame `distanciaA`, que reciba un `Punto` como parámetro y calcule la distancia entre `this` y el punto proporcionado
 
-### Respuesta
+Un método puede recibir como parámetro otro objeto de la misma clase. En este caso, el método distanciaA recibe un objeto Punto y calcula la distancia entre el objeto actual y el punto proporcionado.
+
+El cálculo se realiza accediendo a los atributos de ambos objetos, utilizando this para referirse al objeto que ejecuta el método y el parámetro para acceder al objeto recibido.
+
+Este tipo de métodos permite definir relaciones entre objetos y realizar operaciones que dependen del estado de más de una instancia.
+
+double distanciaA(Punto otro) {
+    double dx = this.x - otro.x;
+    double dy = this.y - otro.y;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
 
 
 ## 14. El paso del `Punto` como parámetro a un método, es **por copia** o **por referencia**, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
 
-### Respuesta
+En Java, cuando se pasa un objeto como parámetro a un método, se pasa una copia de la referencia al objeto. Esto implica que el método puede modificar el estado del objeto original, ya que ambas referencias apuntan al mismo objeto en memoria.
+
+Sin embargo, si dentro del método se reasigna la referencia, ese cambio no afecta a la referencia original fuera del método. Solo las modificaciones sobre los atributos del objeto son visibles externamente.
+
+En el caso de los tipos primitivos como int, double o char, el paso de parámetros es por copia del valor. Por tanto, cualquier modificación realizada dentro del método no afecta a la variable original.
 
 
 ## 15. ¿Qué es el método `toString()` en Java? ¿Existe en otros lenguajes? Pon un ejemplo de `toString()` en la clase `Punto` en Java
 
-### Respuesta
+El método toString() es un método definido en la clase base Object, de la cual heredan todas las clases en Java. Su finalidad es devolver una representación en forma de texto del objeto.
+
+Por defecto, este método devuelve una cadena poco informativa, por lo que es habitual redefinirlo para mostrar información relevante del estado del objeto.
+
+Métodos con una finalidad similar existen en otros lenguajes orientados a objetos, aunque con nombres o mecanismos distintos.
+
+@Override
+public String toString() {
+    return "Punto(" + x + ", " + y + ")";
+}
+
 
 
 ## 16. Reflexiona: ¿una clase es como un `struct` en C? ¿Qué le falta al `struct` para ser como una clase y las variables de ese tipo ser instancias?
 
 
-### Respuesta
+Una clase y un struct en C comparten similitudes, ya que ambos permiten agrupar datos relacionados bajo un mismo tipo. Desde este punto de vista, una clase puede verse como una evolución del concepto de estructura.
+
+Sin embargo, un struct en C solo contiene datos, mientras que una clase también contiene comportamiento en forma de métodos. Además, una clase permite controlar el acceso a sus miembros y asociar directamente las funciones a los datos.
+
+A un struct en C le faltan mecanismos como encapsulación, constructores, herencia y polimorfismo. Tampoco existe una referencia implícita al objeto, como ocurre con this.
 
 
 ## 17. Quitemos un poco de magia a todo esto: ¿Como se podría “emular”, con `struct` en C, la clase `Punto`, con su función para calcular la distancia al origen? ¿Qué ha pasado con `this`?
 
-### Respuesta
+En C, una forma de emular una clase consiste en definir un struct para los datos y funciones externas que operen sobre dicho struct. Estas funciones reciben explícitamente un puntero a la estructura.
+
+La referencia implícita this desaparece y se sustituye por un parámetro que representa el objeto sobre el que se opera. El programador debe pasar manualmente dicho puntero a cada función.
+
+Este enfoque permite aproximarse al modelo de objetos, pero carece de las garantías y mecanismos automáticos que ofrece la programación orientada a objetos.
+#include <math.h>
+
+struct Punto {
+    double x;
+    double y;
+};
+
+double calculaDistanciaAOrigen(struct Punto *p) {
+    return sqrt(p->x * p->x + p->y * p->y);
+}
